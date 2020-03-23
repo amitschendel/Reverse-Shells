@@ -10,7 +10,6 @@
 #include <stdbool.h>
 
 # define IP_PROTOCOL 0
-# define BUFFER_SIZE 1024
 # define USAGE "Usage: ./reverse_shell [IP] [PORT]"
 
 /**
