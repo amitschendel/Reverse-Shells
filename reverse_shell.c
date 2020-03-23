@@ -5,5 +5,5 @@ int main(){
 
     printf("%s", "hello world");
 
-    return 1;
+    return 0;
 }
