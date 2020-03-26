@@ -26,8 +26,7 @@ void exit_with_error(char* message) {
 int connect_to_server(char* server_ip, int server_port) {
 	int conn_handle = WSASocket(AF_INET, SOCK_STREAM, IP_PROTOCOL, NULL, (unsigned int)NULL, (unsigned int)NULL);
 	
-	if (conn_handle == -1) 
-	{
+	if (conn_handle == -1) {
 		exit_with_error("Error in creating the connection socket");
 	}
 	
