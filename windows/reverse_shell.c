@@ -41,8 +41,7 @@ int connect_to_server(char* server_ip, int server_port) {
 	server_addr.sin_port = htons(server_port);
 	server_addr.sin_family = AF_INET;
 
-	if (WSAConnect(conn_handle, (const struct sockaddr*) &server_addr, sizeof(server_addr), NULL, NULL, NULL, NULL) == -1) 
-	{
+	if (WSAConnect(conn_handle, (const struct sockaddr*) &server_addr, sizeof(server_addr), NULL, NULL, NULL, NULL) == -1) {
 		exit_with_error("Error while trying to connect to server");
 	}
 	
@@ -75,8 +74,7 @@ int exec_comm_handler(int sck) {
 void initialize_winsock() {
 	WSADATA wsa;
 
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) == -1) 
-	{
+	if (WSAStartup(MAKEWORD(2, 2), &wsa) == -1) {
 		exit_with_error("Error initializing the winsock library");
 	}
 }
