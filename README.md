@@ -11,3 +11,9 @@ In reverse shell the the client is attacked machine, and the server is the attac
 an attacker, and redirects the output into it. That way we achieve remote code execution. 
 
 ![reverse shell](https://static.wixstatic.com/media/f20f53_eb087b9dfa4746c3aabf12c64b04a835~mv2.png/v1/fit/w_578,h_360,al_c,q_80/file.png)
+
+## Demo 
+https://i.imgur.com/eQ9R0ml.png
+
+## Disclaimer
+This project is for educational purposes only, we are not responsible for any kind of abuse.
